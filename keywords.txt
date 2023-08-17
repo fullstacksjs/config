@@ -1,0 +1,17 @@
+fullstacksjs
+frontendmonster
+alireza
+safaeirad
+fullstacks
+treeshake
+tsup
+iife
+postpublish
+pinst
+npmignore
+postbuild
+commitlint
+tailwindcss
+nextra
+nojekyll
+unoptimized

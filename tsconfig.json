@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "allowImportingTsExtensions": true
+  },
+  "files": ["./mod.ts"],
+  "include": ["src/"],
+  "exclude": []
+}
