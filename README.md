@@ -3,7 +3,7 @@
 <br/>
 <br/>
 
-<img src="https://raw.githubusercontent.com/fullstacksjs/config/main/assets/logo.svg" width="200" alt="@fullstacksjs/config logo" />
+<img src="https://raw.githubusercontent.com/fullstacksjs/config/main/assets/thumbnail.png" alt="@fullstacksjs/config logo" />
 
 <br/>
 <br/>
