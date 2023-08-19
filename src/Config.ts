@@ -18,7 +18,7 @@ export class Config<
 
     Object.entries(this.schema).forEach(([k, s]) => {
       s.setValue(this.value[k]);
-      s.validate(this.value[k]);
+      s.validate();
       this.value[k as keyof TConfig] = s.parse();
     });
 

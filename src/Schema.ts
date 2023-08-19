@@ -1,4 +1,4 @@
-import { RequiredGuard, type Guard } from './Guard';
+import { RequiredGuard, type Guard, TypeGuard } from './Guard';
 
 interface SchemaOptions<T> {
   default?: T;
@@ -6,24 +6,25 @@ interface SchemaOptions<T> {
 }
 
 export class Schema<T = any> {
-  public checks: Guard<T>[] = [];
+  public guards: Guard[];
   private input: T | undefined;
   public key!: string;
-  public type!: string;
 
-  constructor(public options: SchemaOptions<T>) {}
+  constructor(public type: string, public options: SchemaOptions<T>) {
+    this.guards = [new TypeGuard(this.type)];
+  }
 
   public setValue(input: T) {
     this.input = input ?? this.options.default;
   }
 
   public require() {
-    this.checks.push(new RequiredGuard<T>());
+    this.guards.unshift(new RequiredGuard());
     return this;
   }
 
-  public validate(input: T) {
-    return this.checks.every(check => check.validate(input, this.key));
+  public validate() {
+    return this.guards.every(check => check.validate(this.input, this.key));
   }
 
   public parse() {
@@ -32,10 +33,8 @@ export class Schema<T = any> {
 }
 
 export class StringSchema extends Schema<string> {
-  public override type = 'string';
-
   constructor(options: SchemaOptions<string> = {}) {
-    super(options);
+    super('string', options);
   }
 
   public override parse() {
