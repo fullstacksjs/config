@@ -30,4 +30,16 @@ describe('Config', () => {
 
     expect(config.getAll()).toEqual({ port: '3000' });
   });
+
+  it('should throw error when value is not string', () => {
+    const schema = new Config({
+      port: Config.string(),
+    });
+
+    expect(() => schema.parse({ port: 3000 })).toThrow(
+      new TypeError(
+        'Invalid configuration: The "port" expected to be "string" but a "number" was provided',
+      ),
+    );
+  });
 });
