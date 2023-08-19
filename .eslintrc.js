@@ -8,4 +8,7 @@ module.exports = init({
       parserProject: './tsconfig.eslint.json',
     },
   },
+  rules: {
+    '@typescript-eslint/restrict-template-expressions': 'off',
+  },
 });
