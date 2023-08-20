@@ -2,6 +2,7 @@ import { RequiredGuard, type Guard } from './Guard';
 
 interface SchemaOptions<T> {
   default?: T;
+  coerce?: boolean;
 }
 
 export class Schema<T = any> {
@@ -26,6 +27,16 @@ export class Schema<T = any> {
   }
 
   public parse() {
+    if (this.options.coerce) {
+      if (this.type === 'string') {
+        return String(this.input);
+      } else if (this.type === 'number') {
+        return Number(this.input);
+      } else if (this.type === 'boolean') {
+        return Boolean(this.input);
+      }
+    }
+
     return this.input;
   }
 }

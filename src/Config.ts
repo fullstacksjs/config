@@ -25,7 +25,7 @@ export class Config<
     return this;
   }
 
-  static string(options?: { default: string }) {
+  static string(options?: { default?: string; coerce?: boolean }) {
     return new StringSchema(options);
   }
 
