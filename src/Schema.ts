@@ -27,16 +27,6 @@ export class Schema<T = any> {
   }
 
   public parse() {
-    if (this.options.coerce) {
-      if (this.type === 'string') {
-        return String(this.input);
-      } else if (this.type === 'number') {
-        return Number(this.input);
-      } else if (this.type === 'boolean') {
-        return Boolean(this.input);
-      }
-    }
-
     return this.input;
   }
 }
@@ -46,5 +36,13 @@ export class StringSchema extends Schema<string> {
 
   constructor(options: SchemaOptions<string> = {}) {
     super(options);
+  }
+
+  public override parse() {
+    if (this.options.coerce) {
+      return String(super.parse());
+    }
+
+    return super.parse();
   }
 }
