@@ -1,4 +1,4 @@
-import type { Schema } from './Schema';
+import type { Schema, SchemaConstructor } from './Schema';
 import { StringSchema } from './Schema';
 
 export class Config<
@@ -25,7 +25,7 @@ export class Config<
     return this;
   }
 
-  static string(options?: { default?: string; coerce?: boolean }) {
+  static string<T>(options?: SchemaConstructor<T>) {
     return new StringSchema(options);
   }
 

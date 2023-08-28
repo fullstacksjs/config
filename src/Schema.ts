@@ -1,21 +1,27 @@
 import { RequiredGuard, type Guard, TypeGuard } from './Guard';
 
-interface SchemaOptions<T> {
-  default?: T;
+interface SchemaOptions<TInput, TValue> {
+  default?: TInput;
+  typeConstructor: (input: TInput) => TValue;
+  type: string;
   coerce?: boolean;
 }
 
-export class Schema<T = any> {
-  public guards: Guard[];
-  private input: T | undefined;
+export class Schema<TInput = any, TValue = any> {
+  protected input: TInput | undefined;
+  protected value: TValue | undefined;
+  protected guards: Guard[];
   public key!: string;
 
-  constructor(public type: string, public options: SchemaOptions<T>) {
-    this.guards = [new TypeGuard(this.type)];
+  constructor(public options: SchemaOptions<TInput, TValue>) {
+    this.guards = [new TypeGuard(this.options.type)];
   }
 
-  public setValue(input: T) {
+  public setValue(input: TInput) {
     this.input = input ?? this.options.default;
+
+    if (this.options.coerce && typeof input !== 'string')
+      this.value = this.options.typeConstructor(this.input!);
   }
 
   public require() {
@@ -24,17 +30,22 @@ export class Schema<T = any> {
   }
 
   public validate() {
-    return this.guards.every(check => check.validate(this.input, this.key));
+    return this.guards.every(check => check.validate(this.value, this.key));
   }
 
   public parse() {
-    return this.input;
+    return this.value;
   }
 }
 
-export class StringSchema extends Schema<string> {
-  constructor(options: SchemaOptions<string> = {}) {
-    super('string', options);
+export interface SchemaConstructor<TInput> {
+  default?: TInput;
+  coerce?: boolean;
+}
+
+export class StringSchema<TInput = any> extends Schema<TInput, string> {
+  constructor(options: SchemaConstructor<TInput> = {}) {
+    super({ ...options, typeConstructor: String, type: 'string' });
   }
 
   public override parse() {

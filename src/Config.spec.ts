@@ -50,4 +50,12 @@ describe('Config', () => {
       ),
     );
   });
+
+  it.only('should allow for type coercion.', () => {
+    const config = new Config({
+      port: Config.string({ coerce: true }),
+    }).parse({ port: 3000 });
+
+    expect(config.getAll()).toEqual({ port: '3000' });
+  });
 });
