@@ -69,11 +69,12 @@ The FullstacksJS team is monitoring for pull requests. We will go ahead and revi
 
 Before submitting a pull request, please make sure the following is done:
 
-- Fork the repository and create your feature branch from dev.
+- Fork the repository and create your feature branch from the `next` branch.
 - Run `npm install` to have all dependencies.
 - To start development run `npm run test:watch`.
-- Write tests in and implementation.
+- Write tests and implementation.
 - Ensure everything is ok `npm run verify`.
+- Create an PR against the `next` branch.
 
 ## Code of Conduct
 
