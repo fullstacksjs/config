@@ -18,10 +18,13 @@ export class Schema<TInput = any, TValue = any> {
   }
 
   public setValue(input: TInput) {
-    this.input = input ?? this.options.default;
+    this.input = input;
+    const value = this.input ?? this.options.default;
 
-    if (this.options.coerce && typeof input !== 'string')
-      this.value = this.options.typeConstructor(this.input!);
+    if (this.options.coerce && typeof input !== this.options.type)
+      this.value = this.options.typeConstructor(value!);
+    // @ts-expect-error There's a runtime check to ensure
+    else this.value = value;
   }
 
   public require() {
