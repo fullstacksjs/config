@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest';
 import { Config } from './Config';
 import { GuardError } from './Guard';
 
@@ -51,7 +50,7 @@ describe('Config', () => {
     );
   });
 
-  it('should allow for type coercion.', () => {
+  it('should allow for type coercion', () => {
     const config = new Config({
       port: Config.string({ coerce: true }),
     }).parse({ port: 3000 });
