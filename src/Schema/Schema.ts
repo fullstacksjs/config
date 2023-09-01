@@ -1,4 +1,4 @@
-import { RequiredGuard, type Guard, TypeGuard } from './Guard';
+import { RequiredGuard, type Guard, TypeGuard } from '../Guard';
 
 interface SchemaOptions<TInput, TValue> {
   default?: TInput;
@@ -17,7 +17,7 @@ export class Schema<TInput = any, TValue = any> {
     this.guards = [new TypeGuard(this.options.type)];
   }
 
-  public setValue(input: TInput) {
+  public setValue(input?: TInput) {
     this.input = input;
     const value = this.input ?? this.options.default;
 
@@ -25,6 +25,8 @@ export class Schema<TInput = any, TValue = any> {
       this.value = this.options.typeConstructor(value!);
     // @ts-expect-error There's a runtime check to ensure
     else this.value = value;
+
+    return this;
   }
 
   public require() {
@@ -38,24 +40,5 @@ export class Schema<TInput = any, TValue = any> {
 
   public parse() {
     return this.value;
-  }
-}
-
-export interface SchemaConstructor<TInput> {
-  default?: TInput;
-  coerce?: boolean;
-}
-
-export class StringSchema<TInput = any> extends Schema<TInput, string> {
-  constructor(options: SchemaConstructor<TInput> = {}) {
-    super({ ...options, typeConstructor: String, type: 'string' });
-  }
-
-  public override parse() {
-    if (this.options.coerce) {
-      return String(super.parse());
-    }
-
-    return super.parse();
   }
 }
