@@ -1,4 +1,4 @@
-import type { Schema, SchemaConstructor } from './Schema';
+import type { Schema, SchemaOptions } from './Schema';
 import { StringSchema } from './Schema';
 
 export class Config<
@@ -7,25 +7,22 @@ export class Config<
 > {
   private value!: TConfig;
 
-  constructor(private schema: TSchema) {
-    Object.entries(this.schema).forEach(([key, s]) => {
-      s.key = key;
-    });
-  }
+  constructor(private schema: TSchema) {}
 
   public parse(value: TConfig) {
     this.value = value;
 
-    Object.entries(this.schema).forEach(([k, s]) => {
-      s.setValue(this.value[k]);
+    Object.entries(this.schema).forEach(([key, s]) => {
+      s.key = key;
+      s.setValue(this.value[key]);
       s.validate();
-      this.value[k as keyof TConfig] = s.parse();
+      this.value[key as keyof TConfig] = s.parse();
     });
 
     return this;
   }
 
-  static string<T>(options?: SchemaConstructor<T>) {
+  static string<T>(options?: SchemaOptions<T>) {
     return new StringSchema(options);
   }
 
