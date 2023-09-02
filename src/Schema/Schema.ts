@@ -10,7 +10,7 @@ interface SchemaOptions<TInput, TValue> {
 export class Schema<TInput = any, TValue = any> {
   protected input: TInput | undefined;
   protected value: TValue | undefined;
-  protected guards: Guard[];
+  protected guards: Guard<any>[];
   public key!: string;
 
   constructor(public options: SchemaOptions<TInput, TValue>) {
@@ -35,7 +35,9 @@ export class Schema<TInput = any, TValue = any> {
   }
 
   public validate() {
-    return this.guards.every(check => check.validate(this.value, this.key));
+    return this.guards.forEach(check => {
+      check.validate(this.value, this.key);
+    });
   }
 
   public parse() {
