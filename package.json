@@ -5,6 +5,9 @@
   "author": "ASafaeirad <frontendmonster@gmail.com>",
   "description": "Configuration manager",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:fullstacksjs/config.git"
