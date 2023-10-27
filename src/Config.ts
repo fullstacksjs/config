@@ -1,5 +1,6 @@
+import type { InferType } from './InferType';
 import type { Schema, SchemaOptions } from './Schema';
-import { StringSchema } from './Schema';
+import { BooleanSchema, NumberSchema, StringSchema } from './Schema';
 
 export class Config<
   TSchema extends Record<string, Schema>,
@@ -22,11 +23,19 @@ export class Config<
     return this;
   }
 
-  static string<T>(options?: SchemaOptions<T>) {
+  static string(options?: SchemaOptions<string>) {
     return new StringSchema(options);
   }
 
-  public getAll() {
-    return this.value;
+  static boolean(options?: SchemaOptions<boolean>) {
+    return new BooleanSchema(options);
+  }
+
+  static number(options?: SchemaOptions<number>) {
+    return new NumberSchema(options);
+  }
+
+  public getAll(): InferType<TSchema> {
+    return this.value as any;
   }
 }
