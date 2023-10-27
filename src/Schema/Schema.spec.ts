@@ -24,6 +24,14 @@ describe('Schema', () => {
     }).setValue();
 
     expect(schema.parse()).toBe('3000');
+
+    const schema2 = new Schema({
+      type: 'string',
+      typeConstructor: String,
+      default: '3000',
+    }).setValue(undefined);
+
+    expect(schema2.parse()).toBe('3000');
   });
 
   it('should use type constructor for type coercion', () => {
