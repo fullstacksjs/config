@@ -1,7 +1,29 @@
-import { RequiredGuard, type Guard, TypeGuard } from '../Guard';
+import { GuardError, type Guard } from '../Guard';
+
+export class RequiredGuard implements Guard<string> {
+  validate(input: unknown, field: string) {
+    if (input == null)
+      throw new GuardError(
+        `Invalid configuration: The "${field}" is required but the given value is "${input}"`,
+      );
+  }
+}
+
+export class TypeGuard implements Guard<any> {
+  constructor(private type: string) {}
+
+  validate(input: any, field: string) {
+    if (typeof input !== this.type && input !== undefined)
+      throw new TypeError(
+        `Invalid configuration: The "${field}" expected to be "${
+          this.type
+        }" but a "${typeof input}" was provided`,
+      );
+  }
+}
 
 interface SchemaOptions<TInput, TValue> {
-  default?: TInput;
+  default?: TValue;
   typeConstructor: (input: TInput) => TValue;
   type: string;
   coerce?: boolean;
@@ -9,29 +31,33 @@ interface SchemaOptions<TInput, TValue> {
 
 export class Schema<TInput = any, TValue = any> {
   protected input: TInput | undefined;
-  protected value: TValue | undefined;
   protected guards: Guard<any>[];
+  public value: TValue | undefined;
   public key!: string;
+  public required!: boolean;
 
   constructor(public options: SchemaOptions<TInput, TValue>) {
+    this.options.coerce ??= true;
     this.guards = [new TypeGuard(this.options.type)];
   }
 
   public setValue(input?: TInput) {
     this.input = input;
-    const value = this.input ?? this.options.default;
 
     if (this.options.coerce && typeof input !== this.options.type)
-      this.value = this.options.typeConstructor(value!);
+      this.value =
+        input != null
+          ? this.options.typeConstructor(input)
+          : this.options.default;
     // @ts-expect-error There's a runtime check to ensure
-    else this.value = value;
+    else this.value = input ?? this.options.default;
 
     return this;
   }
 
   public require() {
     this.guards.unshift(new RequiredGuard());
-    return this;
+    return this as this & { required: true };
   }
 
   public validate() {

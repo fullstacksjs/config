@@ -2,7 +2,7 @@ import { StringSchema } from './StringSchema';
 
 describe('String Schema', () => {
   it('should throw error when value is not string', () => {
-    const schema = new StringSchema().setValue(3000);
+    const schema = new StringSchema({ coerce: false }).setValue(3000);
     schema.key = 'port';
 
     expect(() => schema.validate()).toThrow(
