@@ -28,7 +28,7 @@ jobs:
 
       - name: Build Docs
         working-directory: docs/
-        run: npm run build
+        run: npm run export
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.0.0
