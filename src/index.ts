@@ -1,2 +1,2 @@
 export * from './Config';
-export { InferType } from './InferType';
+export type { InferType } from './InferType';

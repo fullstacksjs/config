@@ -9,3 +9,28 @@ Config!
 ## Motivation
 
 TBD
+
+## Usage
+
+```typescript
+import { Config } from '@fullstacksjs/config';
+
+const schema = new Config({
+  port: Config.number({ default: 3000 }),
+  host: Config.string({ default: 'localhost' }),
+  token: Config.string(),
+  featureX: Config.boolean({ default: true }),
+});
+
+const config = schema.parse({
+  port: '4200',
+  token: 'TOKEN',
+  host: undefined,
+  featureX: false,
+})
+
+config.get('port'); // 4200
+config.get('host'); // 'localhost'
+
+const { port, token, host, featureX } = config.getAll();
+```
