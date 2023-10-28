@@ -37,4 +37,12 @@ describe('Boolean Schema', () => {
     expect(schema.parse()).toBe(true);
     expect(schema2.parse()).toBe(false);
   });
+
+  it('should parse string to boolean', () => {
+    const schema = new BooleanSchema().setValue('true');
+    const schema2 = new BooleanSchema().setValue('false');
+
+    expect(schema.parse()).toBe(true);
+    expect(schema2.parse()).toBe(false);
+  });
 });
