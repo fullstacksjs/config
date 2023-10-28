@@ -26,9 +26,9 @@ jobs:
         working-directory: docs/
         run: npm ci
 
-      - name: Build Stories
+      - name: Build Docs
         working-directory: docs/
-        run: npm run export
+        run: npm run build
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.0.0
