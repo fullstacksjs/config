@@ -34,7 +34,7 @@ export class Schema<TInput = any, TValue = any> {
   protected guards: Guard<any>[];
   public value: TValue | undefined;
   public key!: string;
-  public required!: boolean;
+  public isRequired!: boolean;
 
   constructor(public options: SchemaOptions<TInput, TValue>) {
     this.options.coerce ??= true;
@@ -57,7 +57,7 @@ export class Schema<TInput = any, TValue = any> {
 
   public require() {
     this.guards.unshift(new RequiredGuard());
-    return this as this & { required: true };
+    return this as this & { isRequired: true };
   }
 
   public validate() {

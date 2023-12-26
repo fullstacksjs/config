@@ -3,7 +3,7 @@ import type { Schema, SchemaOptions } from './Schema';
 import { BooleanSchema, NumberSchema, StringSchema } from './Schema';
 import type { SchemaWithDefaultOptions } from './Schema/SchemaOptions';
 
-type RequiredSchema<T extends Schema> = T & { required: true };
+type RequiredSchema<T extends Schema> = T & { isRequired: true };
 
 export class Config<TSchema extends Record<string, Schema>> {
   private value!: InferType<TSchema>;
