@@ -5,7 +5,7 @@ import type { SchemaOptions } from './SchemaOptions';
 class MinNumberGuard implements Guard<number> {
   constructor(private min: number) {}
 
-  validate(input: number, field: number) {
+  validate(input: number, field: string) {
     if (input < this.min)
       throw new RangeError(
         `Invalid configuration: The "${field}" expected to be more than or equal to "${this.min}" but "${input}" was provided`,
@@ -16,7 +16,7 @@ class MinNumberGuard implements Guard<number> {
 class MaxNumberGuard implements Guard<number> {
   constructor(private max: number) {}
 
-  validate(input: number, field: number) {
+  validate(input: number, field: string) {
     if (input > this.max)
       throw new RangeError(
         `Invalid configuration: The "${field}" expected to be less than or equal to "${this.max}" but "${input}" was provided`,
