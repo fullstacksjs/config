@@ -11,5 +11,6 @@ module.exports = init({
   },
   rules: {
     '@typescript-eslint/restrict-template-expressions': 'off',
+    'no-console': 'error',
   },
 });
