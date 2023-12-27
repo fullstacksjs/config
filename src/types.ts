@@ -1,4 +1,4 @@
-import type { Schema } from './Schema';
+import type { ArraySchema, Schema } from './Schema';
 import type { ObjectSchema } from './Schema/ObjectSchema';
 
 export type Prettify<T> = {
@@ -18,9 +18,13 @@ export type InferSchema<
 > = {
   [K in keyof T]: T[K] extends ObjectSchema
     ? InferObjectSchema<T[K]>
-    : T[K] extends RequiredSchema<T[K]>
-      ? NonNullable<T[K]['value']>
-      : T[K]['value'];
+    : T[K] extends ArraySchema<infer TArrSchema>
+      ? TArrSchema extends Schema
+        ? NonNullable<TArrSchema['value']>[]
+        : never
+      : T[K] extends RequiredSchema<T[K]>
+        ? NonNullable<T[K]['value']>
+        : T[K]['value'];
 };
 
 export type Expect<T extends true> = T;

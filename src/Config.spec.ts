@@ -10,11 +10,13 @@ describe('Config', () => {
         foo1: Config.string().required(),
         foo2: Config.object({ foo3: Config.boolean() }),
       }),
+      arr: Config.array(Config.string()),
     })
       .parse({
         s: 's',
         n: 0,
         foo: { foo1: 'foo1', foo2: { foo3: false } },
+        arr: ['a', 'b'],
       })
       .getAll();
 
@@ -22,6 +24,7 @@ describe('Config', () => {
       s: 's',
       n: 0,
       foo: { foo1: 'foo1', foo2: { foo3: false } },
+      arr: ['a', 'b'],
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -32,6 +35,7 @@ describe('Config', () => {
           s: string | undefined;
           n: number;
           foo: { foo1: string; foo2: { foo3: boolean | undefined } };
+          arr: string[];
         }
       >
     >;

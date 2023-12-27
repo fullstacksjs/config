@@ -1,3 +1,4 @@
+export * from './ArraySchema';
 export * from './BooleanSchema';
 export * from './NumberSchema';
 export * from './ObjectSchema';
