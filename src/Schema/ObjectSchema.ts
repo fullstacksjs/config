@@ -4,7 +4,7 @@ import { Schema } from './Schema';
 class ObjectGuard implements Guard<Record<string, Schema>> {
   constructor(private schema: Record<string, Schema>) {}
 
-  validate(input: Record<string, unknown>, key: string) {
+  validate(input: Record<string, unknown> | undefined, key: string) {
     if (!input) return;
 
     Object.entries(this.schema).forEach(([subKey, schema]) => {
@@ -19,7 +19,7 @@ class ObjectGuard implements Guard<Record<string, Schema>> {
 export class ObjectSchema<TInput = any> extends Schema<TInput, TInput> {
   constructor(schema: Record<string, Schema>) {
     super({
-      typeConstructor: x => x as TInput,
+      typeConstructor: x => x,
       type: 'object',
     });
     this.require();

@@ -1,4 +1,5 @@
-import { GuardError, type Guard } from '../Guard';
+import type { Guard } from '../Guard';
+import { GuardError } from '../Guard';
 
 export class RequiredGuard implements Guard<string> {
   validate(input: unknown, field: string) {
