@@ -25,6 +25,8 @@ class MaxNumberGuard implements Guard<number> {
 }
 
 export class NumberSchema<TInput = any> extends Schema<TInput, number> {
+  #type = 'number'; // eslint-disable-line no-unused-private-class-members
+
   constructor(options: SchemaOptions<number> = {}) {
     super({ ...options, typeConstructor: Number, type: 'number' });
   }

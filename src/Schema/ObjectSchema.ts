@@ -17,6 +17,8 @@ class ObjectGuard implements Guard<Record<string, Schema>> {
 }
 
 export class ObjectSchema<TInput = any> extends Schema<TInput, TInput> {
+  #type = 'object'; // eslint-disable-line no-unused-private-class-members
+
   constructor(schema: Record<string, Schema>) {
     super({
       typeConstructor: x => x,
