@@ -6,7 +6,13 @@ import {
   ObjectSchema,
   StringSchema,
 } from './Schema';
-import type { InferSchema, Prettify, RequiredSchema } from './types';
+import type {
+  GetPath,
+  InferSchema,
+  ObjectPath,
+  Prettify,
+  RequiredSchema,
+} from './types';
 
 export class Config<TSchema extends Record<string, Schema<any, any, boolean>>> {
   private value!: InferSchema<TSchema>;
@@ -62,8 +68,12 @@ export class Config<TSchema extends Record<string, Schema<any, any, boolean>>> {
     return new ArraySchema(schema) as any;
   }
 
-  public get<TKey extends keyof TSchema>(key: TKey) {
-    return this.value[key] as Prettify<InferSchema<TSchema>[TKey]>;
+  public get<TKey extends ObjectPath<InferSchema<TSchema>>>(key: TKey) {
+    const keys = key.split('.');
+    // @ts-expect-error error page
+    return keys.reduce((acc, k) => acc[k], this.value) as any as Prettify<
+      GetPath<InferSchema<TSchema>, TKey>
+    >;
   }
 
   public getAll() {

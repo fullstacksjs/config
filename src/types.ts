@@ -37,3 +37,31 @@ export type Equals<X, Y> = (<T>() => T extends X ? 1 : 2) extends <
 
 export type RequiredSchema<T extends Schema<any, any, boolean>> =
   T extends Schema<infer I, infer O> ? Schema<I, O, true> : T;
+
+export type ObjectPath<ObjectType extends object> = {
+  [Key in keyof ObjectType & (number | string)]: ObjectType[Key] extends any[]
+    ? `${Key}`
+    : ObjectType[Key] extends object
+      ? `${Key}.${ObjectPath<ObjectType[Key]>}` | `${Key}`
+      : `${Key}`;
+}[keyof ObjectType & (number | string)];
+
+export type SchemaKeys<
+  T extends Record<string, Schema<unknown, unknown, boolean>>,
+> = {
+  [K in keyof T]: T[K] extends ObjectSchema
+    ? InferObjectSchema<T[K]>
+    : T[K] extends ArraySchema<infer TArrSchema>
+      ? TArrSchema extends Schema
+        ? NonNullable<TArrSchema['value']>[]
+        : never
+      : K;
+};
+
+export type GetPath<T, P extends string> = P extends keyof T
+  ? T[P]
+  : P extends `${infer K}.${infer Rest}`
+    ? K extends keyof T
+      ? GetPath<T[K], Rest>
+      : never
+    : T;

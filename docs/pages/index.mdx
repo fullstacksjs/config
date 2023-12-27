@@ -20,6 +20,10 @@ const schema = new Config({
   host: Config.string({ default: 'localhost' }),
   token: Config.string(),
   featureX: Config.boolean({ default: true }),
+  scope: Config.object({
+    nested: Config.string()
+  }),
+  urls: Config.array(Config.string()),
 });
 
 const config = schema.parse({
@@ -27,10 +31,16 @@ const config = schema.parse({
   token: 'TOKEN',
   host: undefined,
   featureX: false,
+  scope: {
+    nested: 'nested'
+  },
+  urls: ['http', 'https'],
 })
 
 config.get('port'); // 4200
 config.get('host'); // 'localhost'
+config.get('scope.nested'); // 'nested'
+config.get('urls'); // ['http', 'https']
 
-const { port, token, host, featureX } = config.getAll();
+const { port, token, host, featureX, scope, urls } = config.getAll();
 ```
