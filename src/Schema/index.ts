@@ -1,5 +1,5 @@
-export * from './StringSchema';
-export * from './NumberSchema';
 export * from './BooleanSchema';
-export type { SchemaOptions } from './SchemaOptions';
+export * from './NumberSchema';
 export type { Schema } from './Schema';
+export type { SchemaOptions } from './SchemaOptions';
+export * from './StringSchema';
