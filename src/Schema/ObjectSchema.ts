@@ -1,5 +1,6 @@
 import type { Guard } from '../Guard';
 import { Schema } from './Schema';
+import { TypeGuard } from './TypeGuard';
 
 class ObjectGuard implements Guard<Record<string, Schema>> {
   constructor(private schema: Record<string, Schema<any, any, boolean>>) {}
@@ -26,7 +27,7 @@ export class ObjectSchema<TInput = any> extends Schema<
   constructor(schema: Record<string, Schema<any, any, boolean>>) {
     super({
       typeConstructor: x => x,
-      type: 'object',
+      initialGuards: [new TypeGuard('object')],
     });
     this.required();
     this.guards.push(new ObjectGuard(schema));

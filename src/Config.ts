@@ -1,7 +1,10 @@
-import type { Schema, SchemaOptions } from './Schema';
-import { BooleanSchema, NumberSchema, StringSchema } from './Schema';
-import { ObjectSchema } from './Schema/ObjectSchema';
-import type { SchemaWithDefaultOptions } from './Schema/SchemaOptions';
+import type { Schema, SchemaOptions, SchemaWithDefaultOptions } from './Schema';
+import {
+  BooleanSchema,
+  NumberSchema,
+  ObjectSchema,
+  StringSchema,
+} from './Schema';
 import type { InferSchema, Prettify, RequiredSchema } from './types';
 
 export class Config<TSchema extends Record<string, Schema<any, any, boolean>>> {
