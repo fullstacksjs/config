@@ -5,9 +5,9 @@ describe('Config', () => {
   it('should parse nested object', () => {
     const config = new Config({
       s: Config.string(),
-      n: Config.number().require(),
+      n: Config.number().required(),
       foo: Config.object({
-        foo1: Config.string().require(),
+        foo1: Config.string().required(),
         foo2: Config.object({ foo3: Config.boolean() }),
       }),
     })

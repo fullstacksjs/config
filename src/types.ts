@@ -1,4 +1,4 @@
-import type { Schema, StringSchema } from './Schema';
+import type { Schema } from './Schema';
 import type { ObjectSchema } from './Schema/ObjectSchema';
 
 export type Prettify<T> = {
@@ -8,15 +8,17 @@ export type Prettify<T> = {
 export type InferObjectSchema<T extends ObjectSchema> = T extends ObjectSchema<
   infer G
 >
-  ? G extends Record<string, Schema>
+  ? G extends Record<string, Schema<any, any, boolean>>
     ? Prettify<InferSchema<G>>
     : never
   : never;
 
-export type InferSchema<T extends Record<string, Schema>> = {
+export type InferSchema<
+  T extends Record<string, Schema<unknown, unknown, boolean>>,
+> = {
   [K in keyof T]: T[K] extends ObjectSchema
     ? InferObjectSchema<T[K]>
-    : T[K]['isRequired'] extends true
+    : T[K] extends RequiredSchema<T[K]>
       ? NonNullable<T[K]['value']>
       : T[K]['value'];
 };
@@ -29,4 +31,5 @@ export type Equals<X, Y> = (<T>() => T extends X ? 1 : 2) extends <
   ? true
   : false;
 
-export type RequiredSchema<T extends Schema> = T & { isRequired: true };
+export type RequiredSchema<T extends Schema<any, any, boolean>> =
+  T extends Schema<infer I, infer O> ? Schema<I, O, true> : T;

@@ -30,12 +30,17 @@ interface SchemaOptions<TInput, TValue> {
   coerce?: boolean;
 }
 
-export class Schema<TInput = any, TValue = any> {
+export class Schema<
+  TInput = any,
+  TValue = any,
+  TRequired extends boolean = false,
+> {
   protected input: TInput | undefined;
   protected guards: Guard<any>[];
   public value: TValue | undefined;
   public key!: string;
-  public isRequired!: boolean;
+  // @ts-expect-error Metadata for type-safety
+  #isRequired: TRequired; // eslint-disable-line no-unused-private-class-members
 
   constructor(public options: SchemaOptions<TInput, TValue>) {
     this.options.coerce ??= true;
@@ -56,9 +61,9 @@ export class Schema<TInput = any, TValue = any> {
     return this;
   }
 
-  public require() {
+  public required() {
     this.guards.unshift(new RequiredGuard());
-    return this as this & { isRequired: true };
+    return this as Schema<TInput, TValue, true>;
   }
 
   public validate() {
