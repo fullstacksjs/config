@@ -1,13 +1,11 @@
-import type { InferType } from './InferType';
 import type { Schema, SchemaOptions } from './Schema';
 import { BooleanSchema, NumberSchema, StringSchema } from './Schema';
 import { ObjectSchema } from './Schema/ObjectSchema';
 import type { SchemaWithDefaultOptions } from './Schema/SchemaOptions';
-
-type RequiredSchema<T extends Schema> = T & { isRequired: true };
+import type { InferSchema, Prettify, RequiredSchema } from './types';
 
 export class Config<TSchema extends Record<string, Schema>> {
-  private value!: InferType<TSchema>;
+  private value!: InferSchema<TSchema>;
 
   constructor(private schema: TSchema) {}
 
@@ -18,7 +16,7 @@ export class Config<TSchema extends Record<string, Schema>> {
       s.key = key;
       s.setValue(this.value[key]);
       s.validate();
-      this.value[key as keyof InferType<TSchema>] = s.parse();
+      this.value[key as keyof InferSchema<TSchema>] = s.parse();
     });
 
     return this;
@@ -55,10 +53,10 @@ export class Config<TSchema extends Record<string, Schema>> {
   }
 
   public get<TKey extends keyof TSchema>(key: TKey) {
-    return this.value[key] as InferType<TSchema>[TKey];
+    return this.value[key] as Prettify<InferSchema<TSchema>[TKey]>;
   }
 
-  public getAll(): InferType<TSchema> {
-    return this.value as any;
+  public getAll() {
+    return this.value as Prettify<InferSchema<TSchema>>;
   }
 }
