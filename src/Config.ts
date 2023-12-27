@@ -4,7 +4,7 @@ import { ObjectSchema } from './Schema/ObjectSchema';
 import type { SchemaWithDefaultOptions } from './Schema/SchemaOptions';
 import type { InferSchema, Prettify, RequiredSchema } from './types';
 
-export class Config<TSchema extends Record<string, Schema>> {
+export class Config<TSchema extends Record<string, Schema<any, any, boolean>>> {
   private value!: InferSchema<TSchema>;
 
   constructor(private schema: TSchema) {}
@@ -46,7 +46,7 @@ export class Config<TSchema extends Record<string, Schema>> {
     return new NumberSchema(options) as any;
   }
 
-  static object<T extends Record<string, Schema>>(
+  static object<T extends Record<string, Schema<any, any, boolean>>>(
     schema: T,
   ): RequiredSchema<ObjectSchema<T>> {
     return new ObjectSchema(schema) as any;

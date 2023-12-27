@@ -6,7 +6,7 @@ describe('Schema', () => {
     const schema = new Schema({
       type: 'string',
       typeConstructor: String,
-    }).require();
+    }).required();
     schema.key = 'port';
 
     expect(() => schema.validate()).toThrow(
