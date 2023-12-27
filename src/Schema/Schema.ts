@@ -10,24 +10,11 @@ export class RequiredGuard implements Guard<string> {
   }
 }
 
-export class TypeGuard implements Guard<any> {
-  constructor(private type: string) {}
-
-  validate(input: any, field: string) {
-    if (typeof input !== this.type && input !== undefined)
-      throw new TypeError(
-        `Invalid configuration: The "${field}" expected to be "${
-          this.type
-        }" but a "${typeof input}" was provided`,
-      );
-  }
-}
-
 interface SchemaOptions<TInput, TValue> {
   default?: TValue;
   typeConstructor: (input: TInput) => TValue;
-  type: string;
   coerce?: boolean;
+  initialGuards: Guard<any>[];
 }
 
 export class Schema<
@@ -36,7 +23,7 @@ export class Schema<
   TRequired extends boolean = false,
 > {
   protected input: TInput | undefined;
-  protected guards: Guard<any>[];
+  protected guards: Guard<any>[] = [];
   public value: TValue | undefined;
   public key!: string;
   // @ts-expect-error Metadata for type-safety
@@ -44,13 +31,16 @@ export class Schema<
 
   constructor(public options: SchemaOptions<TInput, TValue>) {
     this.options.coerce ??= true;
-    this.guards = [new TypeGuard(this.options.type)];
+    this.guards = options.initialGuards;
   }
 
   public setValue(input?: TInput) {
     this.input = input;
 
-    if (this.options.coerce && typeof input !== this.options.type)
+    const shouldCoerce =
+      typeof input !== typeof this.options.typeConstructor(input!);
+
+    if (this.options.coerce && shouldCoerce)
       this.value =
         input != null
           ? this.options.typeConstructor(input)

@@ -1,5 +1,6 @@
 import { Schema } from './Schema';
 import type { SchemaOptions } from './SchemaOptions';
+import { TypeGuard } from './TypeGuard';
 
 export class BooleanSchema<TInput = any> extends Schema<TInput, boolean> {
   #type = 'boolean'; // eslint-disable-line no-unused-private-class-members
@@ -10,10 +11,9 @@ export class BooleanSchema<TInput = any> extends Schema<TInput, boolean> {
       ...options,
       typeConstructor: n => {
         if (typeof n === 'string' && this.#falseRegex.test(n)) return false;
-
         return Boolean(n);
       },
-      type: 'boolean',
+      initialGuards: [new TypeGuard('boolean')],
     });
   }
 }

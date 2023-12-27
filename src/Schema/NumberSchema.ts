@@ -1,6 +1,7 @@
 import type { Guard } from '../Guard';
 import { Schema } from './Schema';
 import type { SchemaOptions } from './SchemaOptions';
+import { TypeGuard } from './TypeGuard';
 
 class MinNumberGuard implements Guard<number> {
   constructor(private min: number) {}
@@ -28,7 +29,11 @@ export class NumberSchema<TInput = any> extends Schema<TInput, number> {
   #type = 'number'; // eslint-disable-line no-unused-private-class-members
 
   constructor(options: SchemaOptions<number> = {}) {
-    super({ ...options, typeConstructor: Number, type: 'number' });
+    super({
+      ...options,
+      typeConstructor: Number,
+      initialGuards: [new TypeGuard('number')],
+    });
   }
 
   min(min: number) {

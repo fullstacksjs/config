@@ -1,10 +1,11 @@
 import { GuardError } from '../Guard';
 import { Schema } from './Schema';
+import { TypeGuard } from './TypeGuard';
 
 describe('Schema', () => {
   it('should throw if a required config is undefined', () => {
     const schema = new Schema({
-      type: 'string',
+      initialGuards: [new TypeGuard('string')],
       typeConstructor: String,
     }).required();
     schema.key = 'port';
@@ -18,7 +19,7 @@ describe('Schema', () => {
 
   it('should use default value when value is undefined', () => {
     const schema = new Schema({
-      type: 'string',
+      initialGuards: [new TypeGuard('string')],
       typeConstructor: String,
       default: '3000',
     }).setValue();
@@ -26,7 +27,7 @@ describe('Schema', () => {
     expect(schema.parse()).toBe('3000');
 
     const schema2 = new Schema({
-      type: 'string',
+      initialGuards: [new TypeGuard('string')],
       typeConstructor: String,
       default: '3000',
     }).setValue(undefined);
@@ -36,7 +37,7 @@ describe('Schema', () => {
 
   it('should use type constructor for type coercion', () => {
     const schema = new Schema<any, string>({
-      type: 'string',
+      initialGuards: [new TypeGuard('string')],
       typeConstructor: v => `parsed ${v}`,
       default: '3000',
       coerce: true,
