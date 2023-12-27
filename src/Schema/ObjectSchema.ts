@@ -16,13 +16,10 @@ class ObjectGuard implements Guard<Record<string, Schema>> {
   }
 }
 
-export class ObjectSchema<TInput = any> extends Schema<
-  TInput,
-  Record<string, unknown>
-> {
+export class ObjectSchema<TInput = any> extends Schema<TInput, TInput> {
   constructor(schema: Record<string, Schema>) {
     super({
-      typeConstructor: x => x as Record<string, unknown>,
+      typeConstructor: x => x as TInput,
       type: 'object',
     });
     this.require();

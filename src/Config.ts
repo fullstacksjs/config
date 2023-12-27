@@ -1,6 +1,7 @@
 import type { InferType } from './InferType';
 import type { Schema, SchemaOptions } from './Schema';
 import { BooleanSchema, NumberSchema, StringSchema } from './Schema';
+import { ObjectSchema } from './Schema/ObjectSchema';
 import type { SchemaWithDefaultOptions } from './Schema/SchemaOptions';
 
 type RequiredSchema<T extends Schema> = T & { isRequired: true };
@@ -45,6 +46,12 @@ export class Config<TSchema extends Record<string, Schema>> {
     ? RequiredSchema<NumberSchema<number>>
     : NumberSchema<number> {
     return new NumberSchema(options) as any;
+  }
+
+  static object<T extends Record<string, Schema>>(
+    schema: T,
+  ): RequiredSchema<ObjectSchema<T>> {
+    return new ObjectSchema(schema) as any;
   }
 
   public get<TKey extends keyof TSchema>(key: TKey) {
