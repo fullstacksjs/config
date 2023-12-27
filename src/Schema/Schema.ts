@@ -30,23 +30,25 @@ export class Schema<
   #isRequired: TRequired; // eslint-disable-line no-unused-private-class-members
 
   constructor(public options: SchemaOptions<TInput, TValue>) {
-    this.options.coerce ??= true;
     this.guards = options.initialGuards;
   }
 
   public setValue(input?: TInput) {
     this.input = input;
+    const coerce = this.options.coerce ?? true;
 
     const shouldCoerce =
       typeof input !== typeof this.options.typeConstructor(input!);
 
-    if (this.options.coerce && shouldCoerce)
+    // @ts-expect-error There's a runtime check to ensure
+    if (this.options.default == null && input === null) this.value = input;
+    else if (coerce && shouldCoerce)
       this.value =
         input != null
           ? this.options.typeConstructor(input)
           : this.options.default;
     // @ts-expect-error There's a runtime check to ensure
-    else this.value = input ?? this.options.default;
+    else this.value = input ?? this.options.default ?? input;
 
     return this;
   }

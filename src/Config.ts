@@ -1,5 +1,6 @@
 import type { Schema, SchemaOptions, SchemaWithDefaultOptions } from './Schema';
 import {
+  ArraySchema,
   BooleanSchema,
   NumberSchema,
   ObjectSchema,
@@ -53,6 +54,12 @@ export class Config<TSchema extends Record<string, Schema<any, any, boolean>>> {
     schema: T,
   ): RequiredSchema<ObjectSchema<T>> {
     return new ObjectSchema(schema) as any;
+  }
+
+  static array<T extends Schema<any, any, boolean>>(
+    schema: T,
+  ): RequiredSchema<ArraySchema<T>> {
+    return new ArraySchema(schema) as any;
   }
 
   public get<TKey extends keyof TSchema>(key: TKey) {
