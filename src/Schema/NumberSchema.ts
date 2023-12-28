@@ -36,12 +36,12 @@ export class NumberSchema<TInput = any> extends Schema<TInput, number> {
     });
   }
 
-  min(min: number) {
+  public min(min: number) {
     this.guards.push(new MinNumberGuard(min));
     return this;
   }
 
-  max(max: number) {
+  public max(max: number) {
     this.guards.push(new MaxNumberGuard(max));
     return this;
   }
