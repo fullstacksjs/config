@@ -1,7 +1,7 @@
 # Introduction
 
 <div className="flex justify-center my-20">
-  <img className="w-full" src="banner.png" />
+  <img className="w-full max-w-xl" src="banner.png" />
 </div>
 
 A **zero-dependency** 📦, **type-safe** 🚧, simple yet powerful library
@@ -15,38 +15,3 @@ for defining and accessing configuration.
 - 🏗️ **Modern**: Compatible with ESM, Deno, NodeJS, Bun, and browsers.
 - 🧪 **Fully tested**: Comprehensive unit tests cover all functionalities, ensuring robustness.
 - 🔌 **Technlogy-Agnostic**: Not Coupled to any Runtime or Framework.
-
-## Usage
-
-```typescript
-import { Config } from '@fullstacksjs/config';
-
-const schema = new Config({
-  port: Config.number({ default: 3000 }),
-  host: Config.string({ default: 'localhost' }),
-  token: Config.string(),
-  featureX: Config.boolean({ default: true }),
-  scope: Config.object({
-    nested: Config.string()
-  }),
-  urls: Config.array(Config.string()),
-});
-
-const config = schema.parse({
-  port: '4200',
-  token: 'TOKEN',
-  host: undefined,
-  featureX: false,
-  scope: {
-    nested: 'nested'
-  },
-  urls: ['http', 'https'],
-})
-
-config.get('port'); // 4200
-config.get('host'); // 'localhost'
-config.get('scope.nested'); // 'nested'
-config.get('urls'); // ['http', 'https']
-
-const { port, token, host, featureX, scope, urls } = config.getAll();
-```

@@ -4,22 +4,13 @@
 
 ### Node
 
-npm
+Install the package using package managers:
 
 ```shell copy
-npm install --save-dev @fullstacksjs/config
-```
-
-pnpm
-
-```shell copy
-pnpm add --save-dev @fullstacksjs/config
-```
-
-yarn
-
-```shell copy
-yarn add --dev @fullstacksjs/config
+npm install @fullstacksjs/config
+pnpm install @fullstacksjs/config
+bun install @fullstacksjs/config
+yarn add @fullstacksjs/config
 ```
 
 ### Deno
@@ -30,19 +21,46 @@ import { Config } from 'https://raw.githubusercontent.com/fullstacksjs/config/ma
 
 ### Browser ESM
 
-ES Module
-
 ```html copy
 <script type="module">
   import { Config } from 'https://www.unpkg.com/@fullstacksjs/config@<VERSION>/lib/esm/index.js';
 </script>
 ```
 
-Script
+## Usage
 
-```html copy
-<script src="https://www.unpkg.com/@fullstacksjs/config/iife/index.js"></script>
-<script>
-  console.log(window.Config);
-</script>
+Start by importing the Config and define your configuration schema.
+This schema represents the structure and rules of your application's configuration.
+
+```typescript
+import { Config } from '@fullstacksjs/config';
+
+const schema = new Config({
+  port: Config.number({ default: 3000 }),
+  host: Config.string({ default: 'localhost' }),
+  token: Config.string(),
+  featureX: Config.boolean({ default: true }),
+  scope: Config.object({
+    nested: Config.string()
+  }),
+  urls: Config.array(Config.string()),
+});
+
+const config = schema.parse({
+  port: '4200',
+  token: 'TOKEN',
+  host: undefined,
+  featureX: false,
+  scope: {
+    nested: 'nested'
+  },
+  urls: ['http', 'https'],
+})
+
+config.get('port'); // 4200
+config.get('host'); // 'localhost'
+config.get('scope.nested'); // 'nested'
+config.get('urls'); // ['http', 'https']
+
+const { port, token, host, featureX, scope, urls } = config.getAll();
 ```
