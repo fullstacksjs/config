@@ -45,4 +45,16 @@ describe('Boolean Schema', () => {
     expect(schema.parse()).toBe(true);
     expect(schema2.parse()).toBe(false);
   });
+
+  it('should parse false case-insensitive', () => {
+    const schema = new BooleanSchema().setValue('FaLsE');
+
+    expect(schema.parse()).toBe(false);
+  });
+
+  it('should parse 0 to false', () => {
+    const schema = new BooleanSchema().setValue('0');
+
+    expect(schema.parse()).toBe(false);
+  });
 });
