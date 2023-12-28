@@ -1,0 +1,55 @@
+# String
+
+Defines a string schema.
+
+## Parameters
+
+`options`: [Schema Options](./schema#schema-options)
+
+### Example
+
+```typescript
+const stringSchema = Config.string(schemaOptions);
+```
+
+## Methods
+
+### min
+
+Defines minimum length for the string (inclusive).
+
+```typescript
+const config = new Config({
+  password: Config.string().min(4),
+});
+config.parse({ password: '123' }) // Invalid configuration: The "password" length expected to be more than or equal to "18" but "10" was provided',
+```
+
+### min
+
+Defines maximum length for the string (inclusive).
+
+```typescript
+const config = new Config({
+  password: Config.string().max(4),
+});
+config.parse({ password: '12345' }) // Invalid configuration: The "password" length expected to be more than or equal to "4" but "5" was provided',
+```
+
+### required
+
+Mark schema as required.
+
+```typescript
+const config = new Config({
+  password: Config.string().required(),
+});
+
+config.parse({ password: undefined }) // Invalid configuration: The "password" is required but the given value is "undefined"
+```
+
+## Coercion
+
+```ts
+const coercion = value => String(value)
+```

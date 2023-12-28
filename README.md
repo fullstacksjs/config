@@ -15,7 +15,9 @@
 ![MIT License][license-badge]
 ![semantic-release][semantic-badge]
 
-Configuration management
+## Config <!-- omit in toc -->
+
+a type-safe, simple yet powerful library for defining and accessing configuration.
 
 </div>
 
@@ -42,7 +44,7 @@ $ npm install --save-dev @fullstacksjs/config
 ### Deno
 
 ```typescript
-import * as config from 'https://raw.githubusercontent.com/fullstacksjs/config/main/mod.ts'
+import { Config } from 'https://raw.githubusercontent.com/fullstacksjs/config/main/mod.ts'
 ```
 
 ### Browser
