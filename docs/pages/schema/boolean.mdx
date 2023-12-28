@@ -1,0 +1,39 @@
+# Boolean
+
+Defines a boolean schema.
+
+## Parameters
+
+`options`: [Schema Options](./schema#schema-options)
+
+### Example
+
+```typescript
+const booleanSchema = Config.boolean(schemaOptions);
+```
+
+## Methods
+
+### required
+
+Mark schema as required.
+
+```typescript
+const config = new Config({
+  password: Config.boolean().required(),
+});
+
+config.parse({ password: undefined }) // Invalid configuration: The "password" is required but the given value is "undefined"
+```
+
+## Coercion
+When the value is string, it coerces `'0'` or `'false'` to false (case-insensitve), otherwise to passes it to the `Boolean` function.
+
+```ts
+const coercion = value => {
+  const falseRegex = /(false|0)/i;
+  return typeof value === 'string'
+    ? !falseRegex.test(value)
+    : Boolean(value);
+}
+```

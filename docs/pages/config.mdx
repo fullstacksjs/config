@@ -1,0 +1,58 @@
+# Config
+
+## Constructor
+
+Creates a new configuration instance based on the provided schema.
+
+#### Parameters
+
+`schema`: A schema object that defines the configuration schema using the provided methods.
+
+#### Example
+
+```ts
+const config = new Config({
+  port: Config.string(),
+  nested: Config.object({
+    foo: Config.string(),
+  }),
+})
+```
+
+## parse
+
+Parses and validate the configuration against the schema.
+
+#### Parameters
+
+`config`: An object containing the configuration values to be parsed.
+
+#### Example
+
+```typescript
+config.parse({ port: 3000, nested: { foo: 'bar' } })
+```
+
+## get
+Retrieves the value of a specific configuration key.
+
+#### Parameters
+
+`path`: The configuration key to retrieve.
+
+#### Example
+
+```typescript
+config.get('port') // 3000
+config.get('nested.foo') // bar
+```
+
+## getAll
+
+Returns an object containing all configuration values.
+
+#### Example
+
+```typescript
+config.getAll('port') // { port: 3000, nested: { foo: 'bar' } }
+```

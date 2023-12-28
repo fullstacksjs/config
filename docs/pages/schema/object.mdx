@@ -1,0 +1,35 @@
+# Object
+
+Defines an object schema.
+
+## Parameters
+
+schema: Record\<string, [Schema](./schema)>
+
+### Example
+
+```typescript
+const objectSchema = Config.object({
+  foo: Config.string(),
+  nested: Config.object({
+    bar: Config.boolean().required(),
+  }),
+});
+
+/*
+{
+  foo: string | undefined,
+  nested: {
+    bar: boolean;
+  }
+}
+*/
+```
+
+> **Caution**:
+> Inner schema coercion is `false` by default!
+
+
+## Coercion
+
+Coercion is disabled for object.
