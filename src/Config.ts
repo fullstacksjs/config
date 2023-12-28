@@ -68,7 +68,9 @@ export class Config<TSchema extends Record<string, Schema<any, any, boolean>>> {
     return new ArraySchema(schema) as any;
   }
 
-  public get<TKey extends ObjectPath<InferSchema<TSchema>>>(key: TKey) {
+  public get<TKey extends ObjectPath<InferSchema<TSchema>>>(
+    key: TKey,
+  ): Prettify<GetPath<InferSchema<TSchema>, TKey>> {
     const keys = key.split('.');
     // @ts-expect-error error page
     return keys.reduce((acc, k) => acc[k], this.value) as any as Prettify<
@@ -76,7 +78,7 @@ export class Config<TSchema extends Record<string, Schema<any, any, boolean>>> {
     >;
   }
 
-  public getAll() {
+  public getAll(): Prettify<InferSchema<TSchema>> {
     return this.value as Prettify<InferSchema<TSchema>>;
   }
 }
