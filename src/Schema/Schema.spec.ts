@@ -35,6 +35,16 @@ describe('Schema', () => {
     expect(schema2.parse()).toBe('3000');
   });
 
+  it('should use default value when value is null', () => {
+    const schema = new Schema({
+      initialGuards: [new TypeGuard('string')],
+      typeConstructor: String,
+      default: '3000',
+    }).setValue(null);
+
+    expect(schema.parse()).toBe('3000');
+  });
+
   it('should use type constructor for type coercion', () => {
     const schema = new Schema<any, string>({
       initialGuards: [new TypeGuard('string')],
