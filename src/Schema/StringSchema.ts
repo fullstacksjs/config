@@ -26,7 +26,7 @@ class MaxLengthGuard implements Guard<string> {
 }
 
 export class StringSchema<TInput = any> extends Schema<TInput, string> {
-  #type = 'string'; // eslint-disable-line no-unused-private-class-members
+  protected type = 'string';
 
   constructor(options: SchemaOptions<string> = {}) {
     super({
