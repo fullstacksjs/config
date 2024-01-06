@@ -27,7 +27,7 @@ export class Schema<
   public value: TValue | undefined;
   public key!: string;
   // @ts-expect-error Metadata for type-safety
-  #isRequired: TRequired; // eslint-disable-line no-unused-private-class-members
+  protected isRequired: TRequired; // eslint-disable-line no-unused-private-class-members
 
   constructor(public options: SchemaOptions<TInput, TValue>) {
     this.guards = options.initialGuards;

@@ -22,7 +22,7 @@ export class ObjectSchema<TInput = any> extends Schema<
   TInput,
   boolean
 > {
-  #type = 'object'; // eslint-disable-line no-unused-private-class-members
+  protected type = 'object';
 
   constructor(schema: Record<string, Schema<any, any, boolean>>) {
     super({

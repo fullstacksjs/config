@@ -3,7 +3,7 @@ import type { SchemaOptions } from './SchemaOptions';
 import { TypeGuard } from './TypeGuard';
 
 export class BooleanSchema<TInput = any> extends Schema<TInput, boolean> {
-  #type = 'boolean'; // eslint-disable-line no-unused-private-class-members
+  protected type = 'boolean';
   #falseRegex = /(false|0)/i;
 
   constructor(options: SchemaOptions<boolean> = {}) {

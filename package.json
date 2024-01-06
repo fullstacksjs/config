@@ -49,8 +49,8 @@
     "prepare": ".husky/prepare"
   },
   "devDependencies": {
-    "@commitlint/cli": "18.4.3",
-    "@commitlint/config-conventional": "18.4.3",
+    "@commitlint/cli": "18.4.4",
+    "@commitlint/config-conventional": "18.4.4",
     "@frontendmonster/builder": "2.2.0",
     "@fullstacksjs/eslint-config": "10.8.0",
     "@fullstacksjs/toolbox": "4.7.0",
@@ -58,10 +58,10 @@
     "@semantic-release/github": "9.2.6",
     "@semantic-release/npm": "11.0.2",
     "@semantic-release/release-notes-generator": "12.1.0",
-    "@types/node": "20.10.5",
-    "@vitest/coverage-v8": "1.1.0",
+    "@types/node": "20.10.6",
+    "@vitest/coverage-v8": "1.1.2",
     "commitizen": "4.3.0",
-    "cspell": "8.2.3",
+    "cspell": "8.3.2",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "8.56.0",
     "husky": "8.0.3",
@@ -75,7 +75,7 @@
     "standard-version": "9.5.0",
     "tsup": "8.0.1",
     "typescript": "5.3.3",
-    "vitest": "1.1.0"
+    "vitest": "1.1.2"
   },
   "config": {
     "commitizen": {

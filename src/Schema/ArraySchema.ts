@@ -15,7 +15,7 @@ class ArrayGuard implements Guard<any[]> {
 }
 
 export class ArraySchema<TInput = any> extends Schema<TInput, TInput, boolean> {
-  #type = 'array'; // eslint-disable-line no-unused-private-class-members
+  protected type = 'array';
 
   constructor(schema: Schema<any, any, boolean>) {
     super({
