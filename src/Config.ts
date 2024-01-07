@@ -11,6 +11,7 @@ import type {
   InferSchema,
   ObjectPath,
   Prettify,
+  RecursivePartial,
   RequiredSchema,
 } from './types';
 
@@ -19,7 +20,7 @@ export class Config<TSchema extends Record<string, Schema<any, any, boolean>>> {
 
   constructor(private schema: TSchema) {}
 
-  public parse(value: Partial<Record<keyof TSchema, any>>) {
+  public parse(value: RecursivePartial<InferSchema<TSchema>>) {
     this.value = value as Record<keyof TSchema, any>;
 
     Object.entries(this.schema).forEach(([key, s]) => {

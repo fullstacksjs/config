@@ -65,3 +65,7 @@ export type GetPath<T, P extends string> = P extends keyof T
       ? GetPath<T[K], Rest>
       : never
     : T;
+
+export type RecursivePartial<T> = {
+  [P in keyof T]?: RecursivePartial<T[P]>;
+};
