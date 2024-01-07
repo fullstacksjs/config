@@ -10,7 +10,7 @@ class ObjectGuard implements Guard<Record<string, Schema>> {
 
     Object.entries(this.schema).forEach(([subKey, schema]) => {
       schema.key = `${key}.${subKey}`;
-      schema.value = input[subKey];
+      schema.setValue(input[subKey]);
 
       schema.validate();
     });
