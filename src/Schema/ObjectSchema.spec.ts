@@ -4,7 +4,7 @@ import { ObjectSchema } from './ObjectSchema';
 describe('Object Schema', () => {
   it('should throw error when there is an error in object keys', () => {
     const schema = new ObjectSchema({
-      foo: new NumberSchema(),
+      foo: new NumberSchema({ coerce: false }),
     }).setValue({ foo: '3000' });
     schema.key = 'key';
 
@@ -18,7 +18,7 @@ describe('Object Schema', () => {
   it('should throw validate nested schema', () => {
     const schema = new ObjectSchema({
       foo: new ObjectSchema({
-        bar: new NumberSchema(),
+        bar: new NumberSchema({ coerce: false }),
       }),
     }).setValue({ foo: '3000' });
     schema.key = 'key';
@@ -44,5 +44,14 @@ describe('Object Schema', () => {
         'Invalid configuration: The "key.foo" is required but the given value is "undefined"',
       ),
     );
+  });
+
+  it('should coerce nested object by default', () => {
+    const schema = new ObjectSchema({
+      foo: new NumberSchema(),
+    }).setValue({ foo: '3000' });
+    schema.key = 'key';
+
+    expect(() => schema.validate()).not.toThrow();
   });
 });
