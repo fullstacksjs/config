@@ -54,4 +54,16 @@ describe('Object Schema', () => {
 
     expect(() => schema.validate()).not.toThrow();
   });
+
+  it('should parse nested values', () => {
+    const schema = new ObjectSchema<{ foo: string }>({
+      foo: new NumberSchema(),
+    });
+    schema.key = 'key';
+    schema.setValue({ foo: '3000' });
+
+    expect(() => schema.validate()).not.toThrow();
+
+    expect(schema.value?.foo).toBeTypeOf('number');
+  });
 });
