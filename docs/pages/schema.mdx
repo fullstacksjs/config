@@ -1,0 +1,81 @@
+# Schema
+
+The schema is the core structure used to define the shape and rules of the configuration.
+
+## Basic Usage
+
+```typescript
+import { Config } from '@fullstacksjs/config';
+
+const mySchema = {
+  number: Config.number(),
+  string: Config.string(),
+  boolean: Config.boolean(),
+  array: Config.array(Config.string()),
+  object: Config.object({
+    key: Config.string(),
+  }),
+};
+```
+
+## Schema Options
+
+Base option for schema definition.
+
+### Type Definition
+
+```typescript
+type SchemaOptions<T> = {
+  coerce: boolean
+  default: T
+}
+```
+
+### Options
+
+#### coerce
+
+Controls runtime type coercion. when enabled parser tries to coerce the provided value. (default: `true`)
+
+##### Example
+
+```typescript
+const config = new Config({
+  port: Config.number({ coerce: true }),
+});
+config.parse({ port: '3000' })
+config.get(port) // 3000
+typeof config.get(port) // "number"
+```
+
+```typescript
+const config = new Config({
+  port: Config.number({ coerce: false }),
+});
+config.parse({ port: '3000' }) // Invalid configuration: The "port" expected to be "number" but a "string" was provided
+```
+
+#### default
+
+Defines the default value when the value is `null` or `undefined`.
+
+```typescript
+const config = new Config({
+  port: Config.number({ default: 3000 }),
+});
+config.parse({})
+config.get(port) // 3000
+
+config.parse({ port: undefined })
+config.get(port) // 3000
+
+config.parse({ port: null })
+config.get(port) // 3000
+```
+
+## Schemas
+
+import meta from './schema/_meta.json';
+import { TOC } from '../components/TOC.tsx';
+
+<TOC base="/schema" meta={meta} />

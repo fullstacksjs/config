@@ -1,60 +1,49 @@
-import { Config } from './Config';
-import { GuardError } from './Guard';
+import { Config } from './Config.js';
+import type { Equals, Expect } from './types.js';
 
 describe('Config', () => {
-  it('should create a string schema', () => {
+  it('should parse nested object', () => {
     const config = new Config({
-      port: Config.string().require(),
-    }).parse({ port: '3000' });
-
-    expect(config.getAll()).toEqual({ port: '3000' });
-  });
-
-  it('should throw if a required config is undefined', () => {
-    const config = new Config({
-      port: Config.string().require(),
+      s: Config.string(),
+      n: Config.number().required(),
+      nested: Config.object({
+        foo1: Config.string().required(),
+        foo2: Config.object({ foo3: Config.boolean() }),
+      }),
+      arr: Config.array(Config.string()),
+    }).parse({
+      s: 's',
+      n: 0,
+      nested: { foo1: 'foo1', foo2: { foo3: false } },
+      arr: ['a', 'b'],
     });
 
-    expect(() => config.parse({})).toThrow(
-      new GuardError(
-        `Invalid configuration: The "port" is required but the given value is "undefined"`,
-      ),
-    );
-  });
+    const configs = config.getAll();
+    const nested = config.get('nested');
+    const foo2 = config.get('nested.foo2');
+    const foo3 = config.get('nested.foo2.foo3');
 
-  it('should use default value when config is undefined', () => {
-    const config = new Config({
-      port: Config.string({ default: '3000' }),
-    }).parse({});
-
-    expect(config.getAll()).toEqual({ port: '3000' });
-  });
-
-  it('should allow for type coercion.', () => {
-    const config = new Config({
-      port: Config.string({ coerce: true }),
-    }).parse({ port: 3000 });
-
-    expect(config.getAll()).toEqual({ port: '3000' });
-  });
-
-  it('should throw error when value is not string', () => {
-    const schema = new Config({
-      port: Config.string(),
+    expect(configs).toEqual({
+      s: 's',
+      n: 0,
+      nested: { foo1: 'foo1', foo2: { foo3: false } },
+      arr: ['a', 'b'],
     });
+    expect(nested).toEqual({ foo1: 'foo1', foo2: { foo3: false } });
+    expect(foo2).toEqual({ foo3: false });
+    expect(foo3).toBe(false);
 
-    expect(() => schema.parse({ port: 3000 })).toThrow(
-      new TypeError(
-        'Invalid configuration: The "port" expected to be "string" but a "number" was provided',
-      ),
-    );
-  });
-
-  it('should allow for type coercion', () => {
-    const config = new Config({
-      port: Config.string({ coerce: true }),
-    }).parse({ port: 3000 });
-
-    expect(config.getAll()).toEqual({ port: '3000' });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type Test = Expect<
+      Equals<
+        typeof configs,
+        {
+          s: string | undefined;
+          n: number;
+          nested: { foo1: string; foo2: { foo3: boolean | undefined } };
+          arr: string[];
+        }
+      >
+    >;
   });
 });

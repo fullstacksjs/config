@@ -1,0 +1,56 @@
+# Number
+
+Defines a number schema.
+
+## Parameters
+
+`options`: [Schema Options](./schema#schema-options)
+
+### Example
+
+```typescript
+const numberSchema = Config.number(schemaOptions);
+```
+
+## Methods
+
+### min
+
+Defines minimum valid value (inclusive).
+
+```typescript
+const config = new Config({
+  age: Config.number().min(18),
+});
+config.parse({ age: 10 }) // Invalid configuration: The "age" expected to be more than or equal to "18" but "10" was provided',
+```
+
+### min
+
+Defines maximum valid value (inclusive).
+
+```typescript
+const config = new Config({
+  age: Config.number().max(20),
+});
+config.parse({ age: 22 }) // Invalid configuration: The "age" expected to be less than or equal to "20" but "22" was provided',
+```
+
+### required
+
+Mark schema as required.
+
+```typescript
+const config = new Config({
+  password: Config.number().required(),
+});
+
+config.parse({ password: undefined }) // Invalid configuration: The "password" is required but the given value is "undefined"
+```
+
+
+## Coercion
+
+```ts
+const coercion = value => Number(value)
+```

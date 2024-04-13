@@ -4,6 +4,8 @@
 
 ### Node
 
+Install the package using package managers:
+
 npm
 
 ```shell copy
@@ -25,24 +27,51 @@ yarn add @fullstacksjs/config
 ### Deno
 
 ```typescript copy
-import * as config from 'https://raw.githubusercontent.com/fullstacksjs/config/main/mod.ts';
+import { Config } from 'https://raw.githubusercontent.com/fullstacksjs/config/main/mod.ts';
 ```
 
 ### Browser ESM
 
-ES Module
-
 ```html copy
 <script type="module">
-  import * as config from 'https://www.unpkg.com/@fullstacksjs/config@<VERSION>/lib/esm/index.js';
+  import { Config } from 'https://www.unpkg.com/@fullstacksjs/config@<VERSION>/lib/esm/index.js';
 </script>
 ```
 
-Script
+## Usage
 
-```html copy
-<script src="https://www.unpkg.com/@fullstacksjs/config/iife/index.js"></script>
-<script>
-  console.log(window.Config);
-</script>
+Start by importing the Config and define your configuration schema.
+This schema represents the structure and rules of your application's configuration.
+
+```typescript
+import { Config } from '@fullstacksjs/config';
+
+const schema = new Config({
+  port: Config.number({ default: 3000 }),
+  host: Config.string({ default: 'localhost' }),
+  token: Config.string(),
+  featureX: Config.boolean({ default: true }),
+  scope: Config.object({
+    nested: Config.string()
+  }),
+  urls: Config.array(Config.string()),
+});
+
+const config = schema.parse({
+  port: '4200',
+  token: 'TOKEN',
+  host: undefined,
+  featureX: false,
+  scope: {
+    nested: 'nested'
+  },
+  urls: ['http', 'https'],
+})
+
+config.get('port'); // 4200
+config.get('host'); // 'localhost'
+config.get('scope.nested'); // 'nested'
+config.get('urls'); // ['http', 'https']
+
+const { port, token, host, featureX, scope, urls } = config.getAll();
 ```

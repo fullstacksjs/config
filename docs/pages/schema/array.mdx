@@ -1,0 +1,22 @@
+# Array
+
+Defines an array schema.
+
+## Parameters
+
+`schema`: [Schema](/schema)
+
+### Example
+
+```typescript
+const arraySchema = Config.array(Config.string()); // stirng[]
+```
+
+> **Caution**:
+> Inner schema is alwayas `required`!\
+> **Caution**:
+> Inner schema coercion is `false` by default!
+
+## Coercion
+
+Coercion is disabled for array.

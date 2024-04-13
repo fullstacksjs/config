@@ -1,35 +1,89 @@
-import type { Schema, SchemaConstructor } from './Schema';
-import { StringSchema } from './Schema';
+import type {
+  Schema,
+  SchemaOptions,
+  SchemaWithDefaultOptions,
+} from './Schema/index.js';
+import {
+  ArraySchema,
+  BooleanSchema,
+  NumberSchema,
+  ObjectSchema,
+  StringSchema,
+} from './Schema/index.js';
+import type {
+  GetPath,
+  InferSchema,
+  ObjectPath,
+  Prettify,
+  RecursiveAny,
+  RequiredSchema,
+} from './types.js';
 
-export class Config<
-  TSchema extends Record<string, Schema>,
-  TConfig extends Record<string, unknown>,
-> {
-  private value!: TConfig;
+export class Config<TSchema extends Record<string, Schema<any, any, boolean>>> {
+  private value!: InferSchema<TSchema>;
 
-  constructor(private schema: TSchema) {
+  constructor(private schema: TSchema) {}
+
+  public parse(value: RecursiveAny<InferSchema<TSchema>>) {
+    this.value = value as Record<keyof TSchema, any>;
+
     Object.entries(this.schema).forEach(([key, s]) => {
       s.key = key;
-    });
-  }
-
-  public parse(value: TConfig) {
-    this.value = value;
-
-    Object.entries(this.schema).forEach(([k, s]) => {
-      s.setValue(this.value[k]);
+      s.setValue(this.value[key]);
       s.validate();
-      this.value[k as keyof TConfig] = s.parse();
+      this.value[key as keyof InferSchema<TSchema>] = s.parse();
     });
 
     return this;
   }
 
-  static string<T>(options?: SchemaConstructor<T>) {
-    return new StringSchema(options);
+  static string<T extends SchemaOptions<string>>(
+    options?: T,
+  ): T extends SchemaWithDefaultOptions<string>
+    ? RequiredSchema<StringSchema<string>>
+    : StringSchema<string> {
+    return new StringSchema(options) as any;
   }
 
-  public getAll() {
-    return this.value;
+  static boolean<T extends SchemaOptions<boolean>>(
+    options?: T,
+  ): T extends SchemaWithDefaultOptions<boolean>
+    ? RequiredSchema<BooleanSchema<boolean>>
+    : BooleanSchema<boolean> {
+    return new BooleanSchema(options) as any;
+  }
+
+  static number<T extends SchemaOptions<number>>(
+    options?: T,
+  ): T extends SchemaWithDefaultOptions<number>
+    ? RequiredSchema<NumberSchema<number>>
+    : NumberSchema<number> {
+    return new NumberSchema(options) as any;
+  }
+
+  static object<T extends Record<string, Schema<any, any, boolean>>>(
+    schema: T,
+  ): RequiredSchema<ObjectSchema<T>> {
+    return new ObjectSchema(schema) as any;
+  }
+
+  static array<T extends Schema<any, any, boolean>>(
+    schema: T,
+  ): RequiredSchema<ArraySchema<T>> {
+    return new ArraySchema(schema) as any;
+  }
+
+  public get<TKey extends ObjectPath<InferSchema<TSchema>>>(
+    key: TKey,
+  ): Prettify<GetPath<InferSchema<TSchema>, TKey>> {
+    const keys = key.split('.');
+    // @ts-expect-error error page
+    return keys.reduce((acc, k) => acc[k], this.value) as any as Prettify<
+      GetPath<InferSchema<TSchema>, TKey>
+    >;
+  }
+
+  public getAll(): Prettify<InferSchema<TSchema>> {
+    return this.value as Prettify<InferSchema<TSchema>>;
   }
 }

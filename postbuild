@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 shopt -s globstar
 
-
 function create_packages() {
   cat >cjs/package.json <<!EOF
 {
@@ -19,9 +18,9 @@ function create_packages() {
 function copy_esm_dts() {
   mkdir types
   pushd cjs || exit 1
-  find . -type f -name "*.d.ts" -exec cp --parents {} ../types \;
+  find . -type f -name "*.d.ts" -exec rsync -R {} ../types \;
   rm ./**/*.{d.mts,d.ts}
-  popd || exit1
+  popd || exit 1
 }
 
 function copy_esm() {
