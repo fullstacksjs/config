@@ -1,5 +1,5 @@
-import type { Guard } from '../Guard';
-import { GuardError } from '../Guard';
+import type { Guard } from '../Guard.js';
+import { GuardError } from '../Guard.js';
 
 export class RequiredGuard implements Guard<string> {
   validate(input: unknown, field: string) {
@@ -27,7 +27,7 @@ export class Schema<
   public value: TValue | undefined;
   public key!: string;
   // @ts-expect-error Metadata for type-safety
-  protected isRequired: TRequired; // eslint-disable-line no-unused-private-class-members
+  protected isRequired: TRequired;
 
   constructor(public options: SchemaOptions<TInput, TValue>) {
     this.guards = options.initialGuards;

@@ -1,6 +1,6 @@
-import type { Guard } from '../Guard';
-import { Schema } from './Schema';
-import { TypeGuard } from './TypeGuard';
+import type { Guard } from '../Guard.js';
+import { Schema } from './Schema.js';
+import { TypeGuard } from './TypeGuard.js';
 
 class ObjectGuard implements Guard<Record<string, Schema>> {
   constructor(private schema: Record<string, Schema<any, any, boolean>>) {}

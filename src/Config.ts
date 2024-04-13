@@ -1,11 +1,15 @@
-import type { Schema, SchemaOptions, SchemaWithDefaultOptions } from './Schema';
+import type {
+  Schema,
+  SchemaOptions,
+  SchemaWithDefaultOptions,
+} from './Schema/index.js';
 import {
   ArraySchema,
   BooleanSchema,
   NumberSchema,
   ObjectSchema,
   StringSchema,
-} from './Schema';
+} from './Schema/index.js';
 import type {
   GetPath,
   InferSchema,
@@ -13,7 +17,7 @@ import type {
   Prettify,
   RecursiveAny,
   RequiredSchema,
-} from './types';
+} from './types.js';
 
 export class Config<TSchema extends Record<string, Schema<any, any, boolean>>> {
   private value!: InferSchema<TSchema>;

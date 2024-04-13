@@ -5,6 +5,7 @@ module.exports = init({
   modules: {
     auto: true,
     test: true,
+    prettier: true,
     typescript: {
       parserProject: './tsconfig.eslint.json',
     },
@@ -12,5 +13,6 @@ module.exports = init({
   rules: {
     '@typescript-eslint/restrict-template-expressions': 'off',
     'no-console': 'error',
+    'import/no-unresolved': 'off',
   },
 });

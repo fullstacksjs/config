@@ -1,4 +1,4 @@
-import { StringSchema } from './StringSchema';
+import { StringSchema } from './StringSchema.js';
 
 describe('String Schema', () => {
   it('should throw error when value is not string', () => {
