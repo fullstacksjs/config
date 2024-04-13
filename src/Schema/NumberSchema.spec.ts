@@ -1,4 +1,4 @@
-import { NumberSchema } from './NumberSchema';
+import { NumberSchema } from './NumberSchema.js';
 
 describe('Number Schema', () => {
   it('should throw error when value is not number', () => {

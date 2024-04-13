@@ -1,4 +1,4 @@
-import { BooleanSchema } from './BooleanSchema';
+import { BooleanSchema } from './BooleanSchema.js';
 
 describe('Boolean Schema', () => {
   it('should throw error when value is not boolean', () => {

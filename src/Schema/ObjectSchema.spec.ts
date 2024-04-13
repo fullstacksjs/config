@@ -1,5 +1,5 @@
-import { NumberSchema } from './NumberSchema';
-import { ObjectSchema } from './ObjectSchema';
+import { NumberSchema } from './NumberSchema.js';
+import { ObjectSchema } from './ObjectSchema.js';
 
 describe('Object Schema', () => {
   it('should throw error when there is an error in object keys', () => {

@@ -1,5 +1,5 @@
-import { Config } from './Config';
-import type { Equals, Expect } from './types';
+import { Config } from './Config.js';
+import type { Equals, Expect } from './types.js';
 
 describe('Config', () => {
   it('should parse nested object', () => {

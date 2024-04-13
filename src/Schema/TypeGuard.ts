@@ -1,4 +1,4 @@
-import type { Guard } from '../Guard';
+import type { Guard } from '../Guard.js';
 
 type Predicate = (arg: unknown) => boolean;
 

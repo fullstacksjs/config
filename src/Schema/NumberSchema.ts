@@ -1,7 +1,7 @@
-import type { Guard } from '../Guard';
-import { Schema } from './Schema';
-import type { SchemaOptions } from './SchemaOptions';
-import { TypeGuard } from './TypeGuard';
+import type { Guard } from '../Guard.js';
+import { Schema } from './Schema.js';
+import type { SchemaOptions } from './SchemaOptions.js';
+import { TypeGuard } from './TypeGuard.js';
 
 class MinNumberGuard implements Guard<number> {
   constructor(private min: number) {}

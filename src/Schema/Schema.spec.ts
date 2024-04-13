@@ -1,6 +1,6 @@
-import { GuardError } from '../Guard';
-import { Schema } from './Schema';
-import { TypeGuard } from './TypeGuard';
+import { GuardError } from '../Guard.js';
+import { Schema } from './Schema.js';
+import { TypeGuard } from './TypeGuard.js';
 
 describe('Schema', () => {
   it('should throw if a required config is undefined', () => {
