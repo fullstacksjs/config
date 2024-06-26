@@ -25,6 +25,17 @@ class MaxLengthGuard implements Guard<string> {
   }
 }
 
+class RegExGuard implements Guard<string> {
+  constructor(private regex: RegExp) {}
+
+  validate(input: string, field: string) {
+    if (!this.regex.test(input))
+      throw new RangeError(
+        `Invalid configuration: The "${field}" expected to follow "${this.regex}" regex but received "${input}"`,
+      );
+  }
+}
+
 export class StringSchema<TInput = any> extends Schema<TInput, string> {
   protected type = 'string';
 
@@ -43,6 +54,11 @@ export class StringSchema<TInput = any> extends Schema<TInput, string> {
 
   public max(max: number) {
     this.guards.push(new MaxLengthGuard(max));
+    return this;
+  }
+
+  public regex(regex: RegExp) {
+    this.guards.push(new RegExGuard(regex));
     return this;
   }
 }
