@@ -79,4 +79,15 @@ describe('String Schema', () => {
 
     expect(() => schema.validate()).not.toThrow();
   });
+
+  it('should throw when regex does not match', () => {
+    const schema = new StringSchema().regex(/\d+/).setValue('a');
+    schema.key = 'port';
+
+    expect(() => schema.validate()).toThrow(
+      new TypeError(
+        `Invalid configuration: The "port" expected to follow "${String(/\d+/)}" regex but received "a"`,
+      ),
+    );
+  });
 });

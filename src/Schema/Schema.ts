@@ -10,17 +10,6 @@ export class RequiredGuard implements Guard<string> {
   }
 }
 
-class RegExGuard implements Guard<string> {
-  constructor(private regex: RegExp) {}
-
-  validate(input: string, field: string) {
-    if (!this.regex.test(input))
-      throw new RangeError(
-        `Invalid configuration: The "${field}" expected to follow "${this.regex}" regex but received "${input}"`,
-      );
-  }
-}
-
 interface SchemaOptions<TInput, TValue> {
   default?: TValue;
   typeConstructor: (input: TInput) => TValue;
@@ -67,11 +56,6 @@ export class Schema<
   public required() {
     this.guards.unshift(new RequiredGuard());
     return this as Schema<TInput, TValue, true>;
-  }
-
-  public regex(regex: RegExp) {
-    this.guards.push(new RegExGuard(regex));
-    return this;
   }
 
   public validate() {
